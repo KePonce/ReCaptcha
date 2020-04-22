@@ -2,14 +2,18 @@ import React        from 'react';
 import InputField   from './InputField';
 import ActionButon  from './ActionButton';
 import Usuarios     from './Almacenamiento/Usuarios';
+import Recaptcha    from 'react-recaptcha';
 
 class LoginForm extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
+      this.recaptchaloaded = this.recaptchaloaded.bind(this);
+      this.verifyCallback = this.verifyCallback.bind(this);
+      this.state = {
       username: '',
       password: '',
+      isVerified: false,
       buttonDisabled: false
     }
   }
@@ -29,18 +33,31 @@ class LoginForm extends React.Component {
     this.setState({
       username: '',
       password: '',
+      isVerified: false,
       buttonDisabled: false
     })
   }
 
+  recaptchaloaded(){
+    console.log("Se ha insertado el recaptcha");
+  }
+
+  verifyCallback(response){
+    if(response){
+      this.setState({
+        isVerified: true
+      })
+    }
+  }
   async doLogin(){
-    if (!this.state.username) {
+    /*if (!this.state.username) {
       return;
     }
     if (!this.state.password) {
       return;
     }
-
+    */
+    
     this.setState({
       buttonDisabled:true
     })
@@ -54,7 +71,8 @@ class LoginForm extends React.Component {
         },
         body: JSON.stringify({
           username: this.state.username,
-          password: this.state.password
+          password: this.state.password,
+          verified: this.state.isVerified,
         })
       });  
 
@@ -76,7 +94,7 @@ class LoginForm extends React.Component {
   render(){ 
     return (
       <div className="loginForm">
-        <h3 > Bienvenido </h3>
+        <h3> Bienvenido </h3>
 
         <InputField
           type='text'
@@ -96,6 +114,13 @@ class LoginForm extends React.Component {
           disabled = {this.state.buttonDisabled}
           onClick = {() => this.doLogin()}
         />
+
+      <Recaptcha
+        sitekey="6LeI6ewUAAAAAD7705euj7dv5CMPN9VRE7pORTpe"
+        render="explicit"
+        onloadCallback={this.recaptchaloaded}
+        verifyCallback={this.verifyCallback}
+      />
       </div> 
     );
   }

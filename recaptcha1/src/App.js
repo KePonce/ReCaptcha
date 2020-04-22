@@ -1,5 +1,6 @@
 import React        from 'react';
 import {observer}   from 'mobx-react';
+import Recaptcha    from 'react-recaptcha';
 import Usuarios     from './Almacenamiento/Usuarios';
 import LoginForm    from './LoginForm';
 import ActionButton from './ActionButton';
