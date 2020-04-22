@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
           username: this.state.username,
           password: this.state.password
         })
-      })
+      });  
 
       let result = await res.json();
       if (result && result.success) {
@@ -84,8 +84,19 @@ class LoginForm extends React.Component {
           value={this.state.username ? this.state.username : ''}
           onChange= {(val) => this.setInputValue('username',val)}
         />
+        <InputField
+          type='password'
+          placeholder='Password'
+          value={this.state.password ? this.state.password : ''}
+          onChange= {(val) => this.setInputValue('password',val)}
+        />
 
-      </div>
+        <ActionButon
+          text = 'Entrar'
+          disabled = {this.state.buttonDisabled}
+          onClick = {() => this.doLogin()}
+        />
+      </div> 
     );
   }
 }
