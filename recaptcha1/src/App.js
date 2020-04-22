@@ -1,26 +1,101 @@
-import React from 'react';
-import logo from './logo.svg';
+import React        from 'react';
+import {observer}   from 'mobx-react';
+import Usuarios     from './Almacenamiento/Usuarios';
+import LoginForm    from './LoginForm';
+import ActionButton from './ActionButton';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  async componentDidMount(){
+    try {
+      let res = await fetch('/IsLoggedIn', {
+          method: 'post',
+          headers:{
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          }
+      });
+
+      let result = await res.json();
+
+      if (result && result.success){
+        Usuarios.loading = false;
+        Usuarios.IsLoggedIn = true;
+        Usuarios.UserName = result.UserName;
+        Usuarios.UserLastName = result.UserLastName;
+      }
+      else{
+        Usuarios.loading = false;
+        Usuarios.IsLoggedIn = false;
+      }
+      
+    } catch (e) {
+        Usuarios.loading = false;
+        Usuarios.IsLoggedIn = false;
+    }
+  }
+
+
+  async doLogout(){
+    try {
+      let res = await fetch('/logout', {
+          method: 'post',
+          headers:{
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          }
+      });
+
+      let result = await res.json();
+
+      if (result && result.success){
+        Usuarios.IsLoggedIn = false;
+        Usuarios.UserName = '';
+        Usuarios.UserLastName = '';
+      }
+      
+    } catch (e) {
+        console.log(e)
+    }
+  }
+
+
+  render(){ 
+    if(Usuarios.loading){
+      return (
+        <div className="app">
+          <div className="container">
+            Cargando, Por favor espere...
+          </div>
+        </div>
+      );
+    }
+    else{
+      if (Usuarios.IsLoggedIn) {
+        return (
+          <div className="app">
+            <div className="container">
+              Bienvenido {Usuarios.UserName}, {Usuarios.UserLastName}
+
+              <ActionButton
+                  text = {'Cerrar Sesion'}
+                  disabled = {false}
+                  onClick={()=>this.doLogout()}
+              />
+            </div>
+          </div>
+        );
+      }
+      return (
+        <div className="app">
+          <div className="container">
+            <LoginForm/>
+          </div>
+        </div>
+      );
+    }
+  }
 }
 
-export default App;
+export default observer(App);
