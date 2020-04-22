@@ -23,7 +23,6 @@ class App extends React.Component {
         Usuarios.loading = false;
         Usuarios.IsLoggedIn = true;
         Usuarios.UserName = result.UserName;
-        Usuarios.UserLastName = result.UserLastName;
       }
       else{
         Usuarios.loading = false;
@@ -52,7 +51,6 @@ class App extends React.Component {
       if (result && result.success){
         Usuarios.IsLoggedIn = false;
         Usuarios.UserName = '';
-        Usuarios.UserLastName = '';
       }
       
     } catch (e) {
@@ -76,7 +74,7 @@ class App extends React.Component {
         return (
           <div className="app">
             <div className="container">
-              Bienvenido {Usuarios.UserName}, {Usuarios.UserLastName}
+              Bienvenido {Usuarios.UserName}
 
               <ActionButton
                   text = {'Cerrar Sesion'}

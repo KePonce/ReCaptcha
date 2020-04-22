@@ -7,8 +7,7 @@ class Usuario{
         extendObservable(this, {
             loading: true,
             IsLoggedIn: false,
-            UserName: '',
-            UserLastName: ''
+            UserName: ''
         })
     }
     
