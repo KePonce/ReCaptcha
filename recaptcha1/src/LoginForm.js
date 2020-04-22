@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
   render(){ 
     return (
       <div className="loginForm">
-        Ingreso
+        <h3 > Bienvenido </h3>
 
         <InputField
           type='text'

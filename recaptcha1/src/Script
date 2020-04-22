@@ -1,0 +1,9 @@
+drop database if exists Joins;
+create database Usuarios;
+use Usuarios;
+
+create table Usuario(
+	Id SMALLINT AUTO_INCREMENT PRIMARY KEY ,
+	NombreUsuario varchar(255),
+    Contraseña varchar(255)
+);
