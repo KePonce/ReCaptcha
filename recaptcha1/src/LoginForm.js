@@ -42,14 +42,14 @@ class LoginForm extends React.Component {
     console.log("Se ha insertado el recaptcha");
   }
 
+  //Token generado por el recaptcha
   verifyCallback(recaptchaToken){
     this.setState({
       isVerified: recaptchaToken
     })
-
-    console.log(this.state.isVerified)
-    
+    //console.log(this.state.isVerified) 
   }
+  
   async doLogin(){
     /*if (!this.state.username) {
       return;
@@ -58,7 +58,7 @@ class LoginForm extends React.Component {
       return;
     }
     */
-   console.log(this.state.isVerified);
+   //console.log(this.state.isVerified);
     this.setState({
       buttonDisabled:true
     })

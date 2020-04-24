@@ -13,11 +13,12 @@ app.get('/',function(req,res){
     res.sendFile(path.join(__dirname, 'build','index.html'));
 
 });
+//Este llama al LoginForm para el metodo doLogin(post)
 app.post('/login', async (req, res) => {
     if (!req.body.verified)
       return res.json({ success: false, msg: 'No ha realizado la autentificacion del recaptcha' });
   
-    
+    //Esta generada por la cuenta correo
     const secretKey = '6LeI6ewUAAAAAPt3UX6AyI1mMtdIpJFrc8srPp-v';
   
     let username = req.body.username;
@@ -27,17 +28,18 @@ app.post('/login', async (req, res) => {
       response: req.body.verified,
       remoteip: req.connection.remoteAddress
     });
+    
     const verifyURL = `https://google.com/recaptcha/api/siteverify?${query}`;
-  
+    
+    //req de verifyURL 
     const body = await fetch(verifyURL).then(res => res.json());
     console.log(body);
     
     // si no paso la validacion
-    if (body.success !== undefined && !body.success)
+    if (body.success !== undefined && !body.success){
       return res.json({ success: false, msg: 'Fallo en la validacion del recapcha' });
+    }
   
-    
-    console.log("si funciona");
     return res.json({ success: true, username: username});
   });
   
