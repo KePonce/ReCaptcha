@@ -42,12 +42,13 @@ class LoginForm extends React.Component {
     console.log("Se ha insertado el recaptcha");
   }
 
-  verifyCallback(response){
-    if(response){
-      this.setState({
-        isVerified: true
-      })
-    }
+  verifyCallback(recaptchaToken){
+    this.setState({
+      isVerified: recaptchaToken
+    })
+
+    console.log(this.state.isVerified)
+    
   }
   async doLogin(){
     /*if (!this.state.username) {
@@ -57,7 +58,7 @@ class LoginForm extends React.Component {
       return;
     }
     */
-    
+   console.log(this.state.isVerified);
     this.setState({
       buttonDisabled:true
     })
@@ -108,19 +109,22 @@ class LoginForm extends React.Component {
           value={this.state.password ? this.state.password : ''}
           onChange= {(val) => this.setInputValue('password',val)}
         />
-
+        
+        <Recaptcha
+        sitekey="6LeI6ewUAAAAAD7705euj7dv5CMPN9VRE7pORTpe"
+        render="explicit"
+        onloadCallback={this.recaptchaloaded}
+        verifyCallback={this.verifyCallback}
+      />
         <ActionButon
           text = 'Entrar'
           disabled = {this.state.buttonDisabled}
           onClick = {() => this.doLogin()}
         />
 
-      <Recaptcha
-        sitekey="6LeI6ewUAAAAAD7705euj7dv5CMPN9VRE7pORTpe"
-        render="explicit"
-        onloadCallback={this.recaptchaloaded}
-        verifyCallback={this.verifyCallback}
-      />
+        
+
+      
       </div> 
     );
   }
